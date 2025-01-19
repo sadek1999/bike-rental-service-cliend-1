@@ -4,7 +4,7 @@ import Navbar from "../../pages/sheard/Navbar";
 
 
 const MainLayout = () => {
-  return <div>
+  return <div className="max-w-7xl mx-auto bg-green-50">
     <Navbar></Navbar>
     <Outlet></Outlet>
     <Footer></Footer>
