@@ -1,18 +1,24 @@
 // Need to use the React-specific entry point to import createApi
-import { BaseQueryApi, BaseQueryFn, createApi, DefinitionType, FetchArgs, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+import {
+  BaseQueryApi,
+  BaseQueryFn,
+  createApi,
+  DefinitionType,
+  FetchArgs,
+  fetchBaseQuery,
+} from "@reduxjs/toolkit/query/react";
 
-import { logout } from '../features/auth/authSlice';
-import { RootState } from '../store';
-
+import { logout } from "../features/auth/authSlice";
+import { RootState } from "../store";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'https://bick-rental-system-backend.vercel.app',
-  credentials: 'include',
+  baseUrl: "http://localhost:5001/api/",
+  credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
 
     if (token) {
-      headers.set('authorization', `${token}`);
+      headers.set("authorization", `${token}`);
     }
 
     return headers;
@@ -29,35 +35,32 @@ const baseQueryWithAccessToken: BaseQueryFn<
 
   // Handle errors
   if (result?.error?.status === 404) {
-    toast.error(result.error.data.message || 'Resource not found');
+    toast.error(result.error.data.message || "Resource not found");
   }
 
   if (result?.error?.status === 403) {
-    toast.error(result.error.data.message || 'Forbidden');
+    toast.error(result.error.data.message || "Forbidden");
   }
 
   if (result?.error?.status === 401) {
     //* Access token has expired or is invalid
-    toast.error('Session expired. Please log in again.');
+    toast.error("Session expired. Please log in again.");
 
     // Logout the user and redirect to the login page
     api.dispatch(logout());
 
     // Optional: Redirect to login page
-    window.location.href = '/login';
+    window.location.href = "/login";
   }
 
   return result;
 };
 
-
 // Define a service using a base URL and expected endpoints
 export const baseApi = createApi({
-  reducerPath: 'baseApi',
-  
-  baseQuery:baseQueryWithAccessToken,
-  endpoints: () => ({
-    
-  }),
-})
+  reducerPath: "baseApi",
 
+  baseQuery: baseQueryWithAccessToken,
+  tagTypes: ['bikes'],
+  endpoints: () => ({}),
+});

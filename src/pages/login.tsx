@@ -1,13 +1,11 @@
-
 import { useForm, FieldValues } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-
 import { setUser } from "../redux/features/auth/authSlice";
 import { toast } from "sonner";
-
 import { useAppDispatch } from "../redux/hooks";
 import { useLoginMutation } from "../redux/features/auth/atuhApi";
 import { jwtDecode } from "jwt-decode";
+
 
 interface TUser {
   id: string;
@@ -36,8 +34,12 @@ const Login = () => {
 
       toast.success("Login successful!", { id: toastId });
 
-      // Redirect based on role
-      navigate(`/${decodedToken.role}/dashboard`);
+      // Redirect based on role or to home page
+      if (decodedToken.role === "admin") {
+        navigate(`/admin`);
+      } else {
+        navigate(`/`);
+      }
     } catch (error) {
       toast.error("Login failed. Please check your credentials.", {
         id: toastId,
@@ -46,51 +48,43 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center text-gray-800">
-          Welcome Back!
-        </h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <div className="h-screen flex items-center justify-center bg-gradient-to-r from-green-400 to-blue-500">
+      <div className="bg-white p-8 rounded-xl shadow-xl max-w-sm w-full">
+        <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">Welcome Back!</h2>
+        <form onSubmit={handleSubmit(onSubmit)}>
           {/* Email Input */}
-          <div className="form-control">
-            <label htmlFor="email" className="label">
-              <span className="label-text">Email</span>
-            </label>
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-gray-600 text-sm mb-2">Email</label>
             <input
               type="email"
               id="email"
               {...register("email", { required: true })}
               placeholder="Enter your email"
-              className="input input-bordered w-full"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
             />
           </div>
 
           {/* Password Input */}
-          <div className="form-control">
-            <label htmlFor="password" className="label">
-              <span className="label-text">Password</span>
-            </label>
+          <div className="mb-6">
+            <label htmlFor="password" className="block text-gray-600 text-sm mb-2">Password</label>
             <input
               type="password"
               id="password"
               {...register("password", { required: true })}
               placeholder="Enter your password"
-              className="input input-bordered w-full"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
             />
           </div>
 
           {/* Submit Button */}
-          <button type="submit" className="btn btn-primary w-full">
+          <button type="submit" className="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">
             Login
           </button>
         </form>
 
         {/* Reset Password Link */}
-        <div className="text-center">
-          <a href="/reset-password" className="text-sm text-primary">
-            Forgot Password?
-          </a>
+        <div className="text-center mt-4">
+          <a href="/reset-password" className="text-green-500 text-sm hover:underline">Forgot Password?</a>
         </div>
       </div>
     </div>

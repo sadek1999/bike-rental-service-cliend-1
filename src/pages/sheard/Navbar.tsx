@@ -26,7 +26,7 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          to="/about-us"
+          to="/about"
           className={({ isActive }) => (isActive ? activeLinkStyle : undefined)}
         >
           About Us

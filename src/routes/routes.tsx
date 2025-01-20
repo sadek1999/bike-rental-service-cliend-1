@@ -4,8 +4,10 @@ import MainLayout from "../Components/Layout/MainLayout";
 import Home from "../pages/Home/Home";
 import About from "../pages/About";
 
-import SignUp from "../pages/signup";
+
 import Login from "../pages/Login";
+import SignUp from "../pages/SignUp";
+
 
 export const route = createBrowserRouter([
   {
@@ -19,16 +21,16 @@ export const route = createBrowserRouter([
       },
     ],
   },
-  {
-    path: "/admin",
-    element: "",
-    children: [],
-  },
-  {
-    path: "/user",
-    element: "",
-    children: [],
-  },
+  // {
+  //   path: "/admin",
+  //   element: "",
+  //   children: [],
+  // },
+  // {
+  //   path: "/user",
+  //   element: "",
+  //   children: [],
+  // },
   {
     path:'/signup',
     element:<SignUp></SignUp>
@@ -37,9 +39,6 @@ export const route = createBrowserRouter([
     path:'/login',
     element:<Login></Login>
   },
-  {
-    path:'/app',
-    element:<App></App>
-  }
+  
 
 ]);
